@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.wang.domain">
+
+	<class name="SecondResources" table="t_secondResources">
+		<id name="id">
+			<generator class="native" />
+		</id>
+		<property name="sname" />
+		<property name="description" />
+		<property name="sr_url" />
+		<!-- primaryUnit是本类与PrimaryUnit的多对一的关系 -->
+		<many-to-one name="primaryResources" class="PrimaryResources" column="primaryResourcesId" lazy="false" fetch="join" cascade="none"></many-to-one>
+		
+      
+
+	</class>
+
+</hibernate-mapping>

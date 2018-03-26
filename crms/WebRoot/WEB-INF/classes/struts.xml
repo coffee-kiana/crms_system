@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置3种扩展名 .action -->
+	<constant name="struts.action.extension" value="action"></constant>
+	<!-- 允许动态方法调用 -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="true" />
+	<!-- 首页 -->
+	<package name="default" namespace="/" extends="struts-default">
+	<!-- admin中batchDownloadAction的action -->
+	     <action name="batchDownload_*" class="batchDownloadAction" method="{1}">
+	       
+	       <!-- 下載多個文件 -->
+		     <result type="stream" name="batchDownloadSecondResources">
+               <param name="contentType">application/octet-stream</param>
+			    <param name="contentDisposition">attachment;filename="${fileName }"</param>
+			    <param name="inputName">inputStream</param>
+           </result>
+		</action>
+	<!-- admin中secondResources的action -->
+	       <action name="secondResources_*" class="secondResourcesAction" method="{1}">
+			   <result name="listSecondResources">/WEB-INF/admin/listSecondResources.jsp</result>
+			    <!-- 添加二级单位 -->
+		       <result name="addSecondResourcesUI">/WEB-INF/admin/addSecondResources.jsp</result>
+		       <result name="secondResourcesAdd" type="redirectAction">secondResources_listSecondResources.action</result> 
+		       <!-- 修改二级单位 -->
+		       <result name="updateSecondResourcesUI">/WEB-INF/admin/editSecondResources.jsp</result>
+		       <result name="editSecondResources" type="redirectAction">secondResources_listSecondResources.action</result>
+		       <!-- 删除二级单位 -->
+		       <result name="deleteSecondResources" type="redirectAction">secondResources_listSecondResources.action</result> 
+		       <!-- 下载单个文件 -->
+		    <result name="uploadSecondResources" type="stream">
+		    <param name="contentType">application/octet-stream</param>
+			    <param name="contentDisposition">attachment;filename="${fileName }"</param>
+			    <param name="inputName">inputStream</param>
+			</result>
+			
+		   </action>
+	
+	
+	<!-- student管理的action -->
+		<action name="student_*" class="studentAction" method="{1}">
+		    <!-- 登陆 -->
+			<result name="studentLoginSuccess">/WEB-INF/student/main.jsp</result>
+			<result name="logout">/login.jsp</result>
+			<!-- 展示资料，修改资料 -->
+			<result name="studentInfo">/WEB-INF/student/studentInfo.jsp</result>
+			<result name="updateStudentInfoUI">/WEB-INF/student/updateStudentInfo.jsp</result>
+			<result name="updateSuccess">/WEB-INF/student/main.jsp</result>
+			<!-- 修改密码 -->
+			<result name="UpdatePasswordUI">/WEB-INF/student/updatePwd.jsp</result>
+			<result name="updatePwdSuccess">/WEB-INF/student/main.jsp</result>
+		  
+			<!-- 学生列表 -->
+			<result name="listStudent">/WEB-INF/admin/listStudent.jsp</result>
+			<!-- 修改学生 -->
+			<result name="adminEditStudentUI">/WEB-INF/admin/editStudent.jsp</result>
+			<result name="studentAdminUpdate" type="redirectAction">student_listStudent.action</result>
+			<!-- 删除学生 -->
+			<result name="adminDeleteStudent" type="redirectAction">student_listStudent.action</result>
+			<!-- admin添加学生 -->
+			<result name="addStudentUI">/WEB-INF/admin/addStudent.jsp</result>
+			<result name="studentAdminAdd" type="redirectAction">student_listStudent.action</result>
+			
+			<!-- 导出学生 -->
+			<result name="export2Excelsucess" type="stream">
+			    <param name="contentType">application/vnd.ms-excel</param>
+			    <param name="contentDisposition">attachment;filename="students.xls"</param>
+			    <param name="inputName">excelFile</param>
+			</result>
+			<!-- admin添加学生 -->
+			<result name="batchAddStudentUI">/WEB-INF/admin/batchAddStudent.jsp</result>
+			<result name="batchAddStudentSucess" type="redirectAction">student_listStudent.action</result>
+		 <!-- 错误页面 -->
+			<result name="error" type="redirectAction">student_logout.action</result>
+		</action>
+		
+		<!-- teacher管理的action -->
+		<action name="teacher_*" class="teacherAction" method="{1}">	
+		
+			<result name="adminUI">/WEB-INF/admin/main.jsp</result>
+		    <!-- 登陆 adminUI-->
+		    <result name="adminLoginSuccess" >/WEB-INF/admin/main.jsp</result>
+			<result name="teacherLoginSuccess">/WEB-INF/teacher/main.jsp</result>
+			<result name="logout">/login.jsp</result>	
+			<!-- 老师列表 -->
+			<result name="listTeacher">/WEB-INF/admin/listTeacher.jsp</result>
+			<!-- 添加老师 teacherAdd-->	
+			<result name="addTeacherUI">/WEB-INF/admin/addTeacher.jsp</result>
+			<result name="teacherAdd" type="redirectAction">teacher_listTeacher.action</result>
+			<!-- 修改老師信息 -->
+			<result name="editTeacherUI">/WEB-INF/admin/editTeacher.jsp</result>
+			<result name="editTeacher" type="redirectAction">teacher_listTeacher.action</result>
+			<result name="deleteTeacher" type="redirectAction">teacher_listTeacher.action</result>
+			<!-- 展示资料，修改资料 -->
+			<result name="teacherInfo">/WEB-INF/teacher/teacherInfo.jsp</result>
+			<result name="updateTeacherInfoUI">/WEB-INF/teacher/updateTeacherInfo.jsp</result>
+			<result name="updateSuccess">/WEB-INF/teacher/main.jsp</result>	
+			<!-- 修改密码 -->
+			<result name="UpdatePasswordUI">/WEB-INF/teacher/updatePwd.jsp</result>
+			<result name="updatePwdSuccess">/WEB-INF/teacher/main.jsp</result>			 
+			 <!-- 错误页面 -->
+			<result name="error" type="redirectAction">teacher_logout.action</result>
+		</action>
+		
+		
+		 <!-- primaryResources的action -->
+	       <action name="primaryResources_*" class="primaryResourcesAction" method="{1}">
+		       <result name="listPrimaryResources">/WEB-INF/admin/listPrimaryResources.jsp</result>
+		       <!-- 添加一级单位 -->
+		       <result name="addPrimaryResourcesUI">/WEB-INF/admin/addPrimaryResources.jsp</result>
+		       <result name="primaryResourcesAdd" type="redirectAction">primaryResources_listPrimaryResources.action</result>
+		       <!-- 修改一级单位 -->
+		       <result name="updatePrimaryResourcesUI">/WEB-INF/admin/editPrimaryResources.jsp</result>
+		       <result name="editPrimaryResources" type="redirectAction">primaryResources_listPrimaryResources.action</result>
+		       <!-- 删除一级单位 -->
+		       <result name="deletePrimaryResources" type="redirectAction">primaryResources_listPrimaryResources.action</result>
+		   </action>
+		
+	</package>		
+	
+</struts>
+
